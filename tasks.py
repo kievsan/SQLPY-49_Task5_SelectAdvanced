@@ -17,18 +17,19 @@ def get_tasks():
         {'task': '--2. количество треков, вошедших в альбомы 2019-2020 годов',
          'select':
             """
-            SELECT COUNT(track_id) треков
-            FROM music_tracks t
-            JOIN music_albums a ON a.album_id = t.album_id
-            WHERE album_release_year = 2019
-                OR album_release_year = 2020
-            GROUP BY t.album_id ;
+            SELECT COUNT(*) альбомов, SUM(треков) треков 
+            FROM ( SELECT t.album_id альбом, COUNT(track_id) треков 
+                    FROM music_tracks t
+                    JOIN music_albums a ON a.album_id = t.album_id
+                    WHERE album_release_year BETWEEN 2019 AND 2020
+                    GROUP BY t.album_id 
+                ) треков_в_искомых_альбомах ;
         """},
         {'task': '--3. средняя продолжительность треков по каждому альбому',
          'select':
             """
-            SELECT album_name, 
-                ROUND(AVG(track_duration), 1) средняя
+            SELECT album_name Альбом, 
+                ROUND(AVG(track_duration), 1) средняя_длит
             FROM music_tracks t
             JOIN music_albums a ON a.album_id = t.album_id
             GROUP BY t.album_id, album_name
