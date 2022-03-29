@@ -4,6 +4,7 @@
 
 
 def get_tasks():
+    task5_singer = 'исполнитель-5'
     select_list = [
         {'task': '--1. количество исполнителей в каждом жанре',
          'select':
@@ -49,10 +50,10 @@ def get_tasks():
             WHERE no.artist_id IS NULL
             ORDER BY Исполнители ;
         """},
-        {'task': '--5. названия сборников, в которых присутствует конкретный исполнитель'
-                 ' (исполнитель-5)',
+        {'task': f'--5. названия сборников, в которых присутствует конкретный исполнитель'
+                 f' ({task5_singer})',
          'select':
-            """
+            f"""
             SELECT c.collection_name Сборники
             FROM relate_track_into_collection tc
             JOIN music_collections c
@@ -65,7 +66,7 @@ def get_tasks():
                 ON aa.album_id = al.album_id
             JOIN music_artists ar
                 ON ar.artist_id = aa.artist_id
-            WHERE lower(ar.artist_name) = 'исполнитель-5'
+            WHERE lower(ar.artist_name) = '{task5_singer}'
             ORDER BY Сборники ;
         """},
         {'task': '--6. название альбомов, в которых присутствуют исполнители более 1 жанра',
