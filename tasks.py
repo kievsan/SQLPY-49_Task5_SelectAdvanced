@@ -109,10 +109,7 @@ def get_tasks():
             JOIN music_tracks t 
                 ON t.album_id = al.album_id
             WHERE track_duration = ( SELECT MIN(track_duration)
-                        FROM music_tracks t
-                        GROUP BY t.track_id
-                        ORDER BY track_duration
-                        LIMIT 1)
+                        FROM music_tracks t )
             ORDER BY Исполнители ;
         """},
         {'task': '--9. название альбомов, содержащих наименьшее количество треков',
